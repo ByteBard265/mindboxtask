@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace AreaCalculator;
+﻿namespace AreaCalculator;
 
 /// <summary>
 /// Треугольник
@@ -15,6 +13,15 @@ public class Triangle : Figure
     /// <param name="thirdSide">Третья сторона</param>
     public Triangle(double firstSide, double secondSide, double thirdSide)
     {
+        if (firstSide <= 0)
+            throw new ArgumentOutOfRangeException(nameof(firstSide), "Первая сторона должна быть больше 0");
+
+        if (secondSide <= 0)
+            throw new ArgumentOutOfRangeException(nameof(secondSide), "Вторая сторона должна быть больше 0");
+
+        if (thirdSide <= 0)
+            throw new ArgumentOutOfRangeException(nameof(secondSide), "Третья сторона должна быть больше 0");
+
         FirstSide = firstSide;
         SecondSide = secondSide;
         ThirdSide = thirdSide;
@@ -23,17 +30,17 @@ public class Triangle : Figure
     /// <summary>
     /// Первая сторона
     /// </summary>
-    public double FirstSide { get; set; }
+    public double FirstSide { get; private set; }
 
     /// <summary>
     /// Вторая сторона
     /// </summary>
-    public double SecondSide { get; set; }
+    public double SecondSide { get; private set; }
 
     /// <summary>
     /// Третья сторона
     /// </summary>
-    public double ThirdSide { get; set; }
+    public double ThirdSide { get; private set; }
 
     /// <summary>
     /// Возвращает площадь треугольника
@@ -51,7 +58,7 @@ public class Triangle : Figure
     public bool IsRectangular()
     {
         var sides = new List<double>() { FirstSide, SecondSide, ThirdSide };
-        sides.Order();
+        sides = sides.Order().ToList();
         return Math.Pow(sides[2], 2) == Math.Pow(sides[0], 2) + Math.Pow(sides[1], 2);
     }
 
